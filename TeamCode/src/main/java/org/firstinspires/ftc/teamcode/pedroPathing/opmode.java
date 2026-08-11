@@ -134,7 +134,6 @@ public class opmode extends OpMode {
                     }
                 }
             }
-
 //            Imgproc.cvtColor(input,input,Imgproc.COLOR_GRAY2RGB);
             Bitmap bitmap = Bitmap.createBitmap(
                     input.width(),
