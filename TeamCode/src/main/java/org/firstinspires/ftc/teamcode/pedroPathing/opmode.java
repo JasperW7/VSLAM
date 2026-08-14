@@ -26,7 +26,10 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
-
+import org.opencv.core.MatOfPoint2f;
+import org.opencv.core.MatOfDMatch;
+import org.opencv.core.DMatch;
+import org.opencv.core.CvType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -42,6 +45,8 @@ public class opmode extends OpMode {
     public static int consecutiveBrightnessTol = 11;
     public static double matchRatio = 0.7;
     public static int maxDescriptorDistance = 2500;
+    public static int ransacInt = 30;
+    public static double ransacThresh = 5;
 
     public static ArrayList<Feature> features = new ArrayList<>();
     public static ArrayList<Match> matches = new ArrayList<>();
@@ -185,7 +190,7 @@ public class opmode extends OpMode {
             }
             //feature matching
             if (!previousFeatures.isEmpty()) {
-                matches = matchFeatures(previousFeatures, currentFeatures);
+                matches = ransacFilter(matchFeatures(previousFeatures, currentFeatures));
             } else {
                 matches.clear();
             }
@@ -322,7 +327,7 @@ public class opmode extends OpMode {
                     sum += val;
                 }
             }
-            double average = sum / 49;
+            double average = (double) sum / 49;
             for (int i = 0; i < descriptor.length; i++) {
                 int val = descriptor[i] & 0xFF;
                 descriptor[i] = (byte) (val - average);
@@ -365,6 +370,33 @@ public class opmode extends OpMode {
             return result;
         }
 
+        public ArrayList<Match> ransacFilter(ArrayList<Match> input){
+            ArrayList<Match> result = new ArrayList<>();
+            if (input.isEmpty()){
+                return result;
+            }
+            java.util.Random random = new java.util.Random();
+            int best = 0;
+            for (int i = 0; i<ransacInt;i++){
+                Match sample = input.get(random.nextInt(input.size()));
+                double dx = sample.current.point.x-sample.previous.point.x;
+                double dy = sample.current.point.y-sample.previous.point.y;
+                ArrayList<Match> inliers = new ArrayList<>();
+                for (Match match:input){
+                    double mDx = match.current.point.x-match.previous.point.x;
+                    double mDy = match.current.point.y-match.previous.point.y;
+                    double error = Math.hypot(mDx-dx,mDy-dy);
+                    if(error<ransacThresh){
+                        inliers.add(match);
+                    }
+                }
+                if(inliers.size()>best){
+                    best = inliers.size();
+                    result = inliers;
+                }
+            }
+            return result;
+        }
         public int descriptorDistance(byte[] a, byte[] b) {
             int distance = 0;
             for (int i = 0; i < a.length; i++) {
