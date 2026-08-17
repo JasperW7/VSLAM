@@ -27,9 +27,11 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint2f;
+import org.opencv.core.MatOfPoint3f;
 import org.opencv.core.MatOfDMatch;
 import org.opencv.core.DMatch;
 import org.opencv.core.CvType;
+import org.opencv.calib3d.Calib3d;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -161,25 +163,34 @@ public class opmode extends OpMode {
                                 1, 1, Bitmap.Config.RGB_565
                         )
                 );
+        private final Mat cameraMat = new Mat(3,3,CvType.CV_64F);
+        private final Mat distortionCoeff = new Mat(5,1,CvType.CV_64F);
 
+        public CameraPipeline(){
+            cameraMat.put(0,0,1201.301549650407,0,408.86431808728605,0,1183.633514447323,161.5314095319902,0,0,1);
+            distortionCoeff.put(0,0,0.46312970087929056,-1.9861524150618615,-0.0041021594732788,0.07755604987483086,4.769011405961361);
+        }
         @Override
         public Mat processFrame(Mat input) {
             /**
              * Processing
              */
-            Imgproc.cvtColor(input, input, Imgproc.COLOR_RGB2GRAY); //greyscale
+            Mat undistorted = new Mat();
+            Calib3d.undistort(input,undistorted,cameraMat,distortionCoeff);
+            Mat gray = new Mat();
+            Imgproc.cvtColor(undistorted,gray,Imgproc.COLOR_RGB2GRAY);//undistorted greyscale
             //read through all pixels and obtain brightness of each
 
-            int width = input.cols();
-            int height = input.rows();
+            int width = gray.cols();
+            int height = gray.rows();
             if (pixels == null || pixels.length != width * height) {
                 pixels = new byte[width * height];
             }
-            input.get(0, 0, pixels);
+            gray.get(0, 0, pixels);
             //feature extraction
             currentFeatures.clear();
-            for (int y = 3; y < input.rows() - 3; y += 4) {
-                for (int x = 3; x < input.cols() - 3; x += 4) {
+            for (int y = 3; y < height - 3; y += 4) {
+                for (int x = 3; x < width - 3; x += 4) {
                     if (isFeaturePoint(pixels, width, x, y, consecutiveBrightnessTol)) {
                         Point point = new Point(x, y);
                         byte[] descriptor = createDescriptor(pixels, width, x, y);
@@ -194,29 +205,32 @@ public class opmode extends OpMode {
             } else {
                 matches.clear();
             }
+            Mat display = new Mat();
+            Imgproc.cvtColor(gray, display, Imgproc.COLOR_GRAY2RGB);
 
-            features.clear();
-            features.addAll(currentFeatures);
-            Imgproc.cvtColor(input, input, Imgproc.COLOR_GRAY2RGB);
-
-            for (Match match : matches) {
+            for (Match match:matches){
                 Point previous = match.previous.point;
                 Point current = match.current.point;
-                Imgproc.circle(input, previous, 4, new Scalar(255, 0, 0), 1);
-                Imgproc.line(input, previous, current, new Scalar(0, 255, 255), 1);
-
+                Imgproc.circle(display,previous,4,new Scalar(255,0,0),1);
+                Imgproc.line(display,previous,current,new Scalar(0,255,255),1);
+                Imgproc.circle(display,current,2,new Scalar(255,0,0),-1);
             }
-
-            Bitmap bitmap = Bitmap.createBitmap(
-                    input.width(),
-                    input.height(),
-                    Bitmap.Config.RGB_565
-            );
-            Utils.matToBitmap(input, bitmap);
-            lastFrame.set(bitmap);
+            features.clear();
+            features.addAll(currentFeatures);
             previousFeatures = new ArrayList<>(currentFeatures);
 
-            return input;
+
+            Bitmap bitmap = Bitmap.createBitmap(
+                    display.width(),
+                    display.height(),
+                    Bitmap.Config.RGB_565
+            );
+            Utils.matToBitmap(display, bitmap);
+            lastFrame.set(bitmap);
+            undistorted.release();
+            gray.release();
+
+            return display;
         }
 
         @Override
@@ -337,7 +351,6 @@ public class opmode extends OpMode {
 
         public ArrayList<Match> matchFeatures(ArrayList<Feature> previousFeatures, ArrayList<Feature> currentFeatures) {
             ArrayList<Match> result = new ArrayList<>();
-            boolean[] previousUsed = new boolean[previousFeatures.size()];
             for (Feature current : currentFeatures) {
                 int bestIndex = -1;
                 Feature bestFeature = null;
