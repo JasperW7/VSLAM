@@ -492,7 +492,7 @@ public class vslam extends LinearOpMode {
             return fps;
         }
         private void updateLastFrame(Mat mat) {
-            // panels stream reads lastFrame directly, forgot this the first time and stared at a black screen for like an hour
+            // panels stream reads lastFrame directly, forgot this the first time and only got a black screen on panels
             Bitmap bitmap = Bitmap.createBitmap(mat.width(), mat.height(), Bitmap.Config.RGB_565);
             Utils.matToBitmap(mat, bitmap);
             lastFrame.set(bitmap);
