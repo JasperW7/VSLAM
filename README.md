@@ -11,8 +11,8 @@ You will need:
 - wheel x2
 - frame x1
 - camera holder x1
-- gears x1
-- pulleys x1
+- gears (2) x1
+- pulleys (2) x1
   
 The build was designed mainly around M3 screws, and the control system revolves around a [Rev Control Hub](https://www.revrobotics.com/rev-31-1595/), 12V battery (xt30 end), 4 standard 25T PWM servos, 25T servo horns, 64T belt, and a [C270 Logitech webcam]( https://www.logitech.com/en-ca/shop/p/c270-hd-webcam).
 For the sake of time, we printed our own [688 bearings](https://grabcad.com/library/688-bearing-8x16x5mm-1), however metal 688 bearings will work as well.
