@@ -29,5 +29,6 @@ To get started with software, simply install Android Studio and clone this repos
 To access the Panels Dashboard, connect to the robot wifi and head to http://192.168.43.1:8001/ on your browser. For setup, under the Teleop dropdown, select the calibration opmode. You will need to print out the following checkerboard pattern used for OpenCV's checkerboard calibration: https://github.com/opencv/opencv/blob/4.x/doc/pattern.png. Run the opmode and select widgets under the Panels Dashboard for Camera Stream. Ensure that the webcam is able to see the checkerboard and move the camera around (you can use the pan and tilt servos for this or you can move the camera manually). The calibration will select 20 points and return calibration values (fx, fy, etc.) to telemetry. Hold onto these values.
 
 Finally, you can run the "test vslam" opmode. Under configurable variables, plug in the fx, fy, cx, cy, k1, etc. calibrated values. The defaults in there are the values that worked for me. Under Panel's camera stream, there should be points plotted by OpenCV's ORB feature extraction. For mapping, simply add a widget for the Panels Field. On top of the field drawing, there will be lines displayed for the camera's pose.
+<img width="1919" height="667" alt="image" src="https://github.com/user-attachments/assets/19dae7e3-39d6-461e-9ceb-8100892896a0" />
 
   
