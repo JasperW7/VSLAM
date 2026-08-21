@@ -1,5 +1,6 @@
 ## For HackClub Macondo
 *This repo is forked off of the official FTC SDK & Pedro Pathing
+*Heavy inspiration from https://learnopencv.com/monocular-slam-in-python/
 ### Monocular VSLAM Turret
 I was slightly involved in a project a while back focusing on drones and the use of camera vision for mapping over something like a laser used for rangefinding. I got interested in the idea of visual simultaneous localization & mapping (VSLAM) and how it could be integrated into drone navigation systems. My vision for this project was to mainly test out the system flow & software behind a single camera VSLAM (monocular), less so about the automation and navigation. Another challenge I wanted to tackle was configuring monocular VSLAM using a cheap and affordable webcam with low processing power.
 
