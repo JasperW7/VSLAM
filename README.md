@@ -22,7 +22,7 @@ For the sake of time, we printed our own [688 bearings](https://grabcad.com/libr
 For assembly, simply attach the servos to the frame & gears with screws, then mount the wheels after. This avoids the wheels from blocking the screw mounting for the servos. 
 Next, attach the bearings into the frame and big gear holders (we used super glue). You can attach the big gear to the frame and the camera holder into the holders now. Attach the pulley to the tilt servo with a belt running across the pulleys.
 Finally, remove the stock c270 mount from the webcam and slide the isolated webcam into the camera holder.
-Wire the servos to ports 0,1,2, and 3, plug in the webcam usb to the USB port on the control hub and connect the battery to power it up.
+Wire the servos to ports 0,1,2, and 3, plug in the webcam usb to the USB port on the control hub and connect the battery to power it up. [Wiring Diagram](https://github.com/JasperW7/VSLAM/blob/main/Wiring%20Diagram.png)
 <img width="2160" height="2880" alt="image" src="https://github.com/user-attachments/assets/702dd06e-b05b-4529-bd0b-d0f4d681265c" />
 
 ### Software
