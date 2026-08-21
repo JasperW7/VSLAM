@@ -1,0 +1,20 @@
+Type,Link,Part number/SKU,Item,Quantity,Price
+3d print,N/A,N/A,Frame,1,$0
+3d print,N/A,N/A,Small gear,1,$0
+3d print,N/A,N/A,Big gear,1,$0
+3d print,N/A,N/A,Pulley,1,$0
+3d print,N/A,N/A,Camera holder,1,$0
+3d print,N/A,N/A,Wheel,2,$0
+3d print,N/A,N/A,688 bearings,3,$0
+Control system,https://revrobotics.ca/rev-31-1595/,REV-31-1595,Control hub,1,$525.00
+Control system,https://www.studica.ca/en/txm-12-volt-rechargeable-nimh-battery-pack,39057,Battery,1,$92.00
+Control system,https://www.studica.ca/en/xt30-mh-fc-to-tamiya-mh-fc-cable,70179,Tamiya to XT30 adapter,1,$5.73
+Control system,https://revrobotics.ca/rev-41-1097/,REV-41-1097,Servo,4,$34.42
+Control system,https://www.amazon.ca/Logitech-Widescreen-Calling-Recording-960-000694/dp/B004FHO5Y6?th=1,,Logitech C270 webcam,1,$27.96
+Control system,https://www.gobilda.com/3412-series-5mm-htd-pitch-timing-belt-9mm-width-320mm-pitch-length-64-tooth/,3412-0009-0320,64T HTD5 belt,1,$7.56
+Fastener,https://www.amazon.ca/Kozelo-440pcs-Socket-Screws-Assortment/dp/B0DK5ZMMY6,,M3 screw 30mm,4,$24.79
+Fastener,,,M3 screw 20mm,8,
+Fastener,,,M4 screw 12mm,8,
+Fastener,,,M3 nyloc nut,6,
+Fastener,,,M4 nyloc nut,8,
+Fastener,https://www.amazon.ca/dp/B0F5QDX7PN?ref=ppx_yo2ov_dt_b_fed_asin_title,,25T servo horn,4,$12.99
